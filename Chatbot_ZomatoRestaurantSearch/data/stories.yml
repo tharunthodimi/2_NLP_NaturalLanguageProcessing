@@ -1,0 +1,747 @@
+version: "2.0"
+
+stories:
+
+- story: happy path with email
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: inform
+    entities:
+    - location: delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: inform
+    entities:
+    - cuisine: chinese
+  - action: action_cuisinesearch
+  - slot_was_set:
+     - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: inform
+    entities:
+    - budget: <300
+  - slot_was_set:
+     - budget: <300
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: delhi
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: inform
+    entities:
+    - emailtobesent: yes
+  - intent: utter_askmailid
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+  
+
+- story: happy path without email
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: inform
+    entities:
+    - location: delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: inform
+    entities:
+    - cuisine: chinese
+  - action: action_cuisinesearch
+  - slot_was_set:
+     - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: inform
+    entities:
+    - budget: ">700"
+  - slot_was_set:
+     - budget: ">700"
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: delhi
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: inform
+    entities:
+    - emailtobesent: no
+  - slot_was_set:
+    - emailtobesent: no
+  - action: utter_goodbye
+  - action: action_torestart
+
+
+- story: location not found
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: inform
+    entities:
+    - location: delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: false
+  - action: utter_rephraselocation
+  - intent: inform
+    entities:
+    - location: delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: false
+  - action: utter_notoperational
+  - action: utter_goodbye
+  - action: action_torestart
+
+  
+
+- story: invalid cuisine
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+  - intent: inform
+    entities:
+    - location: new delhi
+  - slot_was_set:
+    - location: new delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: inform
+    entities:
+    - cuisine: mexiccinese
+  - action: action_cuisinesearch
+  - intent: inform
+    entities:
+    - cuisine_isavailable: false
+  - slot_was_set:
+    - cuisine_isavailable: false
+  - action: utter_rephrasecuisine
+  - intent: inform
+    entities:
+    - cuisine: mexiccinese
+  - action: action_cuisinesearch
+  - intent: inform
+    entities:
+    - cuisine_isavailable: false
+  - slot_was_set:
+    - cuisine_isavailable: false
+  - intent: utter_cuisinenotavialble
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: Restaurants not available
+  steps:
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: new delhi
+  - slot_was_set:
+    - location: new delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: <300
+  - slot_was_set:
+    - budget: <300
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: new delhi
+  - slot_was_set:
+    - restaurantslocated: false
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: Complete flow - Email sent
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: agra
+  - slot_was_set:
+    - location: agra
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: <300
+  - slot_was_set:
+    - budget: <300
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: agra
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+
+- story: Complete flow - Without Email 
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: agra
+  - slot_was_set:
+    - location: agra
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: <300
+  - slot_was_set:
+    - budget: <300
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: agra
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: no
+  - slot_was_set:
+    - emailtobesent: no
+  - action: utter_goodbye
+  - action: action_torestart
+  
+- story: Completeflow without email
+  steps:
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: new delhi
+  - slot_was_set:
+    - location: new delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: '>700'
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: new delhi
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: deny
+    entities:
+    - emailtobesent: no
+  - slot_was_set:
+    - emailtobesent: no
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: cuisine not found
+  steps:
+  - intent: searchfor_restaurant
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: bangalore
+  - slot_was_set:
+    - location: bangalore
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: chinican
+  - slot_was_set:
+    - cuisine: chinican
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: false
+  - action: utter_rephrasecuisine
+  - action: utter_rephrasecuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: chinican
+  - slot_was_set:
+    - cuisine: chinican
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: false
+  - action: utter_cuisinenotavialble
+
+- story: location and cuisine combination
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+    - location: mumbai
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: '>700'
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: cuisine and budget combination with no results
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: chinese
+    - budget: <300
+  - slot_was_set:
+    - cuisine: chinese
+  - slot_was_set:
+    - budget: <300
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: mumbai
+  - slot_was_set:
+    - location: mumbai
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - restaurantslocated: false
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: Cuisine and budget
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+    - budget: '>700'
+  - slot_was_set:
+    - cuisine: North Indian
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: mumbai
+  - slot_was_set:
+    - location: mumbai
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: location and budget
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: mumbai
+    - budget: '>700'
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: mumbai
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: cuisine,location and budget
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: North Indian
+  - slot_was_set:
+    - cuisine: North Indian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: utter_askfor_location
+  - intent: searchfor_restaurant
+    entities:
+    - location: new delhi
+  - slot_was_set:
+    - location: new delhi
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_budget
+  - intent: searchfor_restaurant
+    entities:
+    - budget: <300
+  - slot_was_set:
+    - budget: <300
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: new delhi
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy112@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy112@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: location budget and cuisine
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: ahmedabad
+    - budget: '>700'
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: Italian
+  - slot_was_set:
+    - cuisine: Italian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: searchfor_restaurant
+    entities:
+    - emailtobesent: no
+  - slot_was_set:
+    - emailtobesent: no
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: location budget with incorerct location
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: ahmed
+    - budget: '>700'
+  - slot_was_set:
+    - location: ahmed
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: false
+  - action: utter_rephraselocation
+  - intent: searchfor_restaurant
+    entities:
+    - location: ahmedabad
+  - slot_was_set:
+    - location: ahmedabad
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: Italian
+  - slot_was_set:
+    - cuisine: Italian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+    entities:
+    - emailtobesent: yes
+  - slot_was_set:
+    - emailtobesent: yes
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: interactive_story_1
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - location: ahmedabad
+    - budget: '>700'
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: utter_askfor_cuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: Italian
+  - slot_was_set:
+    - cuisine: Italian
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: deny
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: interactive_story_1
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: italian
+    - location: ahmedabad
+    - budget: '>700'
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - cuisine: italian
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: deny
+    entities:
+    - emailtobesent: no
+  - slot_was_set:
+    - emailtobesent: no
+  - action: utter_goodbye
+  - action: action_torestart
+
+- story: interactive_story_1
+  steps:
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: itali
+    - location: ahmedabad
+    - budget: '>700'
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - cuisine: itali
+  - slot_was_set:
+    - budget: '>700'
+  - action: action_locationsearch
+  - slot_was_set:
+    - operated_inlocation: true
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: false
+  - action: utter_rephrasecuisine
+  - intent: searchfor_restaurant
+    entities:
+    - cuisine: ITALIAN
+  - slot_was_set:
+    - cuisine: ITALIAN
+  - action: action_cuisinesearch
+  - slot_was_set:
+    - cuisine_isavailable: true
+  - action: action_search_restaurants
+  - slot_was_set:
+    - location: ahmedabad
+  - slot_was_set:
+    - restaurantslocated: true
+  - action: utter_askif_emailrequired
+  - intent: affirm
+  - action: utter_askmailid
+  - intent: searchfor_restaurant
+    entities:
+    - askmailid: tharuntejreddy67@gmail.com
+  - slot_was_set:
+    - askmailid: tharuntejreddy67@gmail.com
+  - action: action_send_email
+  - action: utter_goodbye
+  - action: action_torestart

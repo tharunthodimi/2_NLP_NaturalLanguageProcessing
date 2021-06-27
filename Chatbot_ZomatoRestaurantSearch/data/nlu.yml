@@ -1,0 +1,316 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hola
+    - hello!
+    - hey dude
+    - hey buddy
+    - hey whatsup
+    - whatsup buddy
+    - goodmorning
+    - goodevening
+    - good afternoon
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - see you
+    - bye bye
+    - see you later
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - [yes](emailtobesent)
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - [no](emailtobesent)
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+- intent: searchfor_restaurant
+  examples: |
+    - Look for some restaurnats near me
+    - order me food
+    - show me some restaurants
+    - I am hungry
+    - i am hungry and i want to order food
+    - I want to order food from best place of my location
+    - order food for me
+    - Place a food order from nearest hotels
+    - place a order near to my location
+    - I need some food
+    - I am looing for restaurants
+    - Help me in placing an order
+    - I will prefer [mexican](cuisine)
+    - I will prefer [american](cuisine)
+    - I will prefer [chinese](cuisine)
+    - I will prefer [north indian](cuisine)
+    - I will prefer [South Indian](cuisine)
+    - I will prefer [Italian](cuisine)
+    - I am looking for restaurants in [bangalore](location)
+    - I am looking for restaurants in [hyderabad](location)
+    - I am looking for [chinese](cuisine) restaurants
+    - I am looking for [North Indian](cuisine) restaurants
+    - Looking for [South Indian](cuisine) restaurants
+    - show me [mexican](cuisine) restaurants in [bangalore](location)
+    - order me something from [Chinese](cuisine) restaurant
+    - order me something from [mexican](cuisine) restaurant
+    - looking for [chinese](cuisine) restaurant
+    - [new delhi](location)
+    - [mumbai](location)
+    - please find me some [North Indian](cuisine) hotels in my location
+    - please find me some [North Indian](cuisine) hotels in [new delhi](location)
+    - find me [american](cuisine) restaurants in [Ahmedabad](location)
+    - find me [Italian](cuisine) restaurants in [noida](location)
+    - looking out for [american](cuisine) restaurants in [faridabad](location)
+    - get me some yummy [chinese](cuisine) restaurants
+    - show me some yummy [South Indian](cuisine) restaurants
+    - display some restaurants
+    - order some food
+    - looking for restaurants
+    - [South Indian](cuisine)
+    - looking for restaurants at the budget [300-700](budget)
+    - looking for [mexican](cuisine) restaurants in he budget of [<300](budget)
+    - show me some hotels in [Agra](location) in the budget of [greater than 700](budget)
+    - show me [chinese](cuisine) restarants with budget range of [300-700](budget) in [Ahmedabad](location)
+    - grab me hotels with [>300](budget) range in [hyderabad](location) with [american](cuisine)
+    - [>700](budget)
+    - [North Indian](cuisine)
+    - looking for restaurants in [mumbai](location)
+    - send an [no](emailtobesent)
+    - [yes](emailtobesent)
+    - [no](emailtobesent)
+    - [bangalore](location)
+    - [chennai](location)
+    - [hyderabad](location)
+    - [kolkata](location)
+    - [lucknow](location)
+    - [ludhiana](location)
+    - [mangalore](location)
+    - [mohali](location)
+    - [mysore](location)
+    - [nagpur](location)
+    - [ranchi](location)
+    - [surat](location)
+    - [vizag](location)
+    - [shimla](location)
+    - [varanasi](location)
+    - restaurant in [Agra](location)
+    - find me restaurant in [Ahmedabad](location)
+    - find me restaurant in [coimbatore](location)
+    - find me restaurant in [dehradun](location)
+    - find me restaurant in [faridabad](location)
+    - find me restaurant in [gangtok](location)
+    - find me restaurant in [ghaziabad](location)
+    - find me restaurant in [goa](location)
+    - find me restaurant in [mysore](location)
+    - find me restaurant in [nagpur](location)
+    - find me restaurant in [nashik](location)
+    - find me restaurant in [noida](location)
+    - find me restaurant in [ooty](location)
+    - find me restaurant in [Panchkula](location)
+    - find me restaurant in [patna](location)
+    - find me restaurant in [pudcherry](location)
+    - find me restaurant in [pune](location)
+    - look for restaurants in [Allahabad](location)
+    - look for restaurants in [amritsar](location)
+    - look for restaurants in [Aurangabad](location)
+    - look for restaurants in [bhopal](location)
+    - look for restaurants in [bhubaneshwar](location)
+    - look for restaurants in [chandigarh](location)
+    - look for restaurants in [vadodara](location)
+    - look for restaurants in [guwahati](location)
+    - look for restaurants in [indore](location)
+    - look for restaurants in [jaipur](location)
+    - look for restaurants in [kanpur](location)
+    - look for restaurants in [kochi](location)
+    - in [gurgaon](location)
+    - search for [american](cuisine) in [Panchkula](location)
+    - search for [Italian](cuisine) in [Nasik](location)
+    - I am hungry searchfor [South Indian](cuisine) restaurants in [mohali](location)
+    - In the range of [<300](budget)
+    - less than [<300] budget
+    - In the range of [300-700](budget)
+    - [300-700](budget)
+    - send me to my mail [tharuntejreddy67@gmail.com](askmailid)
+    - [abcdef@gmail.com](askmailid)
+    - forward details to [upgrad@gmail.com](askmailid)
+    - send details over [krishna@gmail.com](askmailid)
+    - [Chinese](cuisine)
+    - [tharuntejreddy112@gmail.com](askmailid)
+    - [tharuntejreddy67@gmail.com](askmailid)
+    - looking for restaurant
+    - find me some restaurants
+    - [true](operated_inlocation)
+    - [false](operated_inlocation)
+    - I'll prefer [Chinese](cuisine)
+    - I'll prefer [mexican](cuisine)
+    - I'll prefer [american](cuisine)
+    - I'll prefer [North Indian](cuisine)
+    - I want to opt for [North Indian](cuisine)
+    - [delhi]{"entity": "location", "value": "new delhi"}
+    - hotels
+    - looking for [american](cuisine) restaurants in [hyderabad](location)
+    - looking for restaurants in [delhi]{"entity": "location", "value": "new delhi"}
+    - get me [mexican](cuisine) restaurant in the budget range of [300-700](budget)
+    - get me [chinese](cuisine) restaurant in the budget range of [<300](budget)
+    - grab me [300-700](budget) hotels in [mumbai](location)
+    - show me [<300](budget) hotels in [hyderabad](location)
+    - [mumbom](location)
+    - looking for hotels
+    - [mexinese](cuisine)
+    - [mexiopliu](cuisine)
+    - [mexicanpo](cuisine)
+    - [chineseopl](cuisine)
+    - loking for restaurants in [agra](location)
+    - [<300](budget)
+    - send me at [tharunreddy@hotmail.com](askmailid)
+    - [less than 300](budget)
+    - [more than 700](budget)
+    - looking for restarants
+    - [chinican](cuisine)
+    - looking for [north indian]{"entity": "cuisine", "value": "North Indian"} restaurant in [mumbai](location)
+    - show me [chinese](cuisine) restaurant with [<300](budget) budget
+    - show me [north indian]{"entity": "cuisine", "value": "North Indian"} restaurants with [>700](budget) budget
+    - show me some restaurants in [mumbai](location) with [>700](budget) budget
+    - looking for [north indian]{"entity": "cuisine", "value": "North Indian"} restuarants
+    - looking for restarants in [ahmedabad](location) with budget range of [>700](budget)
+    - [Italian](cuisine)
+    - looking for restarants in [ahmed](location) with [>700](budget) budget
+    - [ahmedabad](location)
+    - looking for hotels in [ahmedabad](location) with budget [>700](budget)
+    - looking for [italian](cuisine) restaurant in [ahmedabad](location) with [>700](budget) budget
+    - looking for [itali](cuisine) hotels in [ahmedabad](location) with [>700](budget) budget
+    - can you suggest some good restaurants in [delhi](location)
+    - [ITALIAN](cuisine)
+    - send me at [tharunreddy@yahoo.com](askmailid)
+    - [tharuntejreddy67@gmail.com](askmailid)
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+- intent: out_of_scope
+  examples: |
+    - I want to order food
+    - What is 2 + 2?
+    - Who's the US President?
+    - 2
+- intent: nlu_fallback
+  examples: |
+    - "Couldn't help you with your query"
+- synonym: new delhi
+  examples: |
+    - delhi
+    - new delhi
+    - New Delhi
+    - newdelhi
+    - Delhi
+    - dilli
+- synonym: North Indian
+  examples: |
+    - north indian
+    - northindian
+- synonym: bangalore
+  examples: |
+    - Bangalore
+    - bengaluru
+- synonym: chennai
+  examples: |
+    - madras
+    - chennai
+    - chnnai
+- synonym: nashik
+  examples: |
+    - nasik
+    - nashik
+- synonym: mumbai
+  examples: |
+    - bombay
+    - mumbaii
+- synonym: vizag
+  examples: |
+    - visakhapatnam
+    - visakapatanam
+- synonym: mexican
+  examples: |
+    - mexi
+- synonym: chinese
+  examples: |
+    - chinne
+    - chine
+- synonym: South Indian
+  examples: |
+    - southindian
+    - south indian
+- regex: greet
+  examples: |
+   - hey[^\s]
+- synonym: <300
+  examples: |
+    - less than 300
+    - <300
+- synonym: '>700'
+  examples: |
+    - more than 700
+    - ">700"
+    - greater than 700

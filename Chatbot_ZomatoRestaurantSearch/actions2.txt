@@ -1,0 +1,113 @@
+# This files contains your custom actions which can be used to run
+# custom Python code.
+#
+# See this guide on how to implement these action:
+# https://rasa.com/docs/rasa/custom-actions
+
+
+# This is a simple example for a custom action which utters "Hello World!"
+
+# from typing import Any, Text, Dict, List
+#
+# from rasa_sdk import Action, Tracker
+# from rasa_sdk.executor import CollectingDispatcher
+#
+#
+# class ActionHelloWorld(Action):
+#
+#     def name(self) -> Text:
+#         return "action_hello_world"
+#
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#
+#         dispatcher.utter_message(text="Hello World!")
+#
+#         return []
+
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import unicode_literals
+
+from rasa_sdk import Action
+from rasa_sdk.events import SlotSet
+import pandas as pd
+import json
+
+from rasa_sdk.events import AllSlotsReset
+
+
+finalemailcontent=""
+ZomatoData = pd.read_csv('zomato.csv')
+ZomatoData = ZomatoData.drop_duplicates().reset_index(drop=True)
+WeOperate = ['New Delhi', 'Gurgaon', 'Noida', 'Faridabad', 'Allahabad', 'Bhubaneshwar', 'Mangalore', 'Mumbai', 'Ranchi', 'Patna', 'Mysore', 'Aurangabad', 'Amritsar', 'Puducherry', 'Varanasi', 'Nagpur', 'Vadodara', 'Dehradun', 'Vizag', 'Agra', 'Ludhiana', 'Kanpur', 'Lucknow', 'Surat', 'Kochi', 'Indore', 'Ahmedabad', 'Coimbatore', 'Chennai', 'Guwahati', 'Jaipur', 'Hyderabad', 'Bangalore', 'Nashik', 'Pune', 'Kolkata', 'Bhopal', 'Goa', 'Chandigarh', 'Ghaziabad', 'Ooty', 'Gangtok', 'Shimla']
+
+def RestaurantSearch(City,Cuisine):
+	TEMP = ZomatoData[(ZomatoData['Cuisines'].apply(lambda x: Cuisine.lower() in x.lower())) & (ZomatoData['City'].apply(lambda x: City.lower() in x.lower()))].sort_values('Aggregate rating',ascending=False)
+	#TEMP = ZomatoData[(ZomatoData['Cuisines'].apply(lambda x: Cuisine.lower() in x.lower())) & (ZomatoData['City'].apply(lambda x: City.lower() in x.lower()))]
+	return TEMP[['Restaurant Name','Address','Average Cost for two','Aggregate rating']]
+
+class ActionSearchRestaurants(Action):
+
+	def name(self):
+		return 'action_search_restaurants'
+    
+	def run(self, dispatcher, tracker, domain):
+		#config={ "user_key":"f4924dc9ad672ee8c4f8c84743301af5"}
+		loc = tracker.get_slot('location')
+		cuisine = tracker.get_slot('cuisine')
+		budget = tracker.get_slot('budget')
+		results = RestaurantSearch(City=loc,Cuisine=cuisine)
+       # print('Hello')
+        
+		response=""
+		if results.shape[0] == 0:
+			response= "no results"
+		else:
+			for restaurant in RestaurantSearch(loc,cuisine).iloc[:5].iterrows():
+				restaurant = restaurant[1]
+				response=response + F"Found {restaurant['Restaurant Name']} in {restaurant['Address']} has been rated {restaurant['Aggregate rating']} with avg cost {restaurant['Average Cost for two']} \n\n"
+		dispatcher.utter_message("-----"+response)
+		return [SlotSet('location',loc)]
+
+
+# Send email the list of 10 restaurants
+class ActionSendEmail(Action):
+	def name(self):
+		return 'action_send_email'
+
+	def run(self, dispatcher, tracker, domain):
+		#email = tracker.get_slot('email')		
+		import smtplib 
+		loc = tracker.get_slot('location') 
+		cuisine=tracker.get_slot('cuisine') 
+		results= RestaurantSearch(City=loc, Cuisine=cuisine)
+		response="" 
+		#finalresult="" 
+		if results.shape[0] == 0:
+			response= "no results"
+		else:
+			for restaurant in RestaurantSearch(loc,cuisine).iloc[:10].iterrows():
+				restaurant = restaurant[1]
+				response=response + F"Found {restaurant['Restaurant Name']} in {restaurant['Address']} has been rated {restaurant['Aggregate rating']} with avg cost {restaurant['Average Cost for two']} \n\n"
+				#finalresult=finalresult + response
+		dispatcher.utter_message("-----"+response)
+		s = smtplib.SMTP('smtp.gmail.com', 587) 
+		s.starttls() 
+		s.login("tharuntejreddy112@gmail.com", "t7h4a0r8@112")
+		message = "The details of all the restaurants you inquried \n \n"        
+		global finalemailcontent
+		subject="hello"
+		message = message + finalemailcontent + response
+		message = 'Subject: {} \n\n{}'.format(subject,message)
+		try:
+			s.sendmail("tharuntejreddy112@gmail.com","tharuntejreddy67@gmail.com",message)
+			s.quit()
+		except:
+           
+			#dispatcher.utter_message(email)
+
+		#finalemailcontent = ""
+		  return [AllSlotsReset()]

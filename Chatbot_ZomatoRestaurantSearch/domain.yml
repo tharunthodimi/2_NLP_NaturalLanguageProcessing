@@ -1,0 +1,142 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 80
+  carry_over_slots_to_new_session: true
+intents:
+- affirm
+- searchfor_restaurant
+- deny
+- greet
+- nlu_fallback
+- goodbye
+- out_of_scope
+- mood_great
+- mood_unhappy
+- bot_challenge
+entities:
+- askmailid
+- budget
+- cuisine
+- cuisine_isavailable
+- email
+- emailtobesent
+- location
+- operated_inlocation
+- restaurantslocated
+slots:
+  location:
+    type: text
+    influence_conversation: true
+  cuisine:
+    type: text
+    influence_conversation: true
+  askmailid:
+    type: text
+    influence_conversation: true
+  emailtobesent:
+    type: categorical
+    influence_conversation: true
+    values: []
+  budget:
+    type: text
+    influence_conversation: true
+  restaurantslocated:
+    type: bool
+    influence_conversation: true
+  operated_inlocation:
+    type: bool
+    influence_conversation: true
+  cuisine_isavailable:
+    type: bool
+    influence_conversation: true
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye.have a Nice day
+  - text: Bye..Bye..
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa. Developed by Tharun and Saloni.
+  utter_askfor_location:
+  - text: What is the location?
+  utter_askfor_cuisine:
+  - text: Please select the cuisine you wish to
+    buttons:
+    - title: Chinese
+      payload: Chinese
+    - title: Mexican
+      payload: Mexican
+    - title: Italian
+      payload: Italian
+    - title: American
+      payload: American
+    - title: South Indian
+      payload: South Indian
+    - title: North Indian
+      payload: North Indian
+  utter_askfor_budget:
+  - text: Select the Price Range from the following categories(Average budget for two users)
+    buttons:
+    - title: less than 300
+      payload: <300
+    - title: Between 300-700
+      payload: 300-700
+    - title: More than 700
+      payload: '>700'
+  utter_askif_emailrequired:
+  - text: Do you want to receive Top 10 restaurants on your email box
+    buttons:
+    - title: yes
+      payload: yes
+    - title: no
+      payload: no
+  utter_askmailid:
+  - text: Please enter the mailid where you wish to receive mail
+  utter_rephrasecuisine:
+  - text: Sorry, didn't find any such Cuisine. Can you please tell me agian?
+  utter_rephraselocation:
+  - text: Sorry, didn't find any such location. Can you please tell me agian?
+  utter_cuisinenotavialble:
+  - text: We do not have any serach results with the requested cuisine in your area
+  utter_notoperational:
+  - text: We do not operate in that area yet
+  utter_wedonotoperate:
+  - text: Sorry we dont operate in your specified location.
+  utter_askfor_email:
+  - text: Please ping me the mail id i will send email for your queries
+  utter_askmailidforemail:
+  - text: please enter the mailid where you wish to receive mail
+  utter_out_of_scope:
+  - text: Sorry, I can't handle that request.
+actions:
+- action_cuisinesearch
+- action_locationsearch
+- action_search_restaurants
+- action_send_email
+- action_torestart
+- utter_askfor_budget
+- utter_askfor_cuisine
+- utter_askfor_email
+- utter_askfor_location
+- utter_askif_emailrequired
+- utter_askmailid
+- utter_askmailidforemail
+- utter_cheer_up
+- utter_cuisinenotavialble
+- utter_did_that_help
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_iambot
+- utter_notoperational
+- utter_out_of_scope
+- utter_rephrasecuisine
+- utter_rephraselocation
+- utter_wedonotoperate
