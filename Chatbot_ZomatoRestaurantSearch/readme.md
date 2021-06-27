@@ -14,3 +14,8 @@
 **Trigger Emails**
 - An email is sent to the correct address with the results of the top-10 restaurants in decreasing order of average user ratings, only if the user asks to do so.
 - Email is sent only based on users intention.
+
+**Files Uploaded**
+- `domain.yml` : Contains Training data for chatbot
+- `action.txt` : Contains code required to connect with Zomato.csv file and filter the data based on the user selected options such as city,Cuisine and budget.
+- `data`: Contains files like `Stories.yml` and `rules.yml`
